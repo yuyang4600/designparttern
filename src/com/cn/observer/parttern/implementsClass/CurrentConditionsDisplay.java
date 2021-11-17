@@ -1,28 +1,33 @@
 package com.cn.observer.parttern.implementsClass;
 
 import com.cn.observer.parttern.rootInterface.DisplayElement;
-import com.cn.observer.parttern.rootInterface.Observer;
-import com.cn.observer.parttern.rootInterface.Subject;
+
+import java.util.Observable;
+import java.util.Observer;
 
 public class CurrentConditionsDisplay implements Observer, DisplayElement {
 
+    Observable observable;
     private float temperature;
     private float humidity;
-    private Subject weatherData;
 
-    public CurrentConditionsDisplay(Subject weatherData) {
-        this.weatherData = weatherData;
-        weatherData.registerObserver(this);
-    }
-    @Override
-    public void update(float temp, float humidity, float pressure) {
-        this.temperature = temp;
-        this.humidity = humidity;
-        display();
+    public CurrentConditionsDisplay(Observable observable) {
+        this.observable = observable;
+        observable.addObserver(this);
     }
 
     @Override
     public void display() {
         System.out.println("current condition: " + temperature + "F degress and " + humidity + " % humidity");
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof WeatherData) {
+            WeatherData weatherData = (WeatherData) o;
+            this.temperature = weatherData.getTemperature();
+            this.humidity = weatherData.getHumidity();
+            display();
+        }
     }
 }
