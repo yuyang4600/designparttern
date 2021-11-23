@@ -1,0 +1,14 @@
+package com.cn.decorator.pattern.beverage.specific;
+
+import com.cn.decorator.pattern.basePackage.Beverage;
+
+public class HouseBlend extends Beverage {
+
+    public HouseBlend() {
+        description = "HouseBlend";
+    }
+    @Override
+    public double cost() {
+        return 0.89 ;
+    }
+}
